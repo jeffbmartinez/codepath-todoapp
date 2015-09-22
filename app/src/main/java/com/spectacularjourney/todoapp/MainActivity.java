@@ -8,16 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.apache.commons.io.FileUtils;
+import com.spectacularjourney.todoapp.storage.Task;
+import com.spectacularjourney.todoapp.storage.TasksDatabaseHelper;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,14 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_EDIT_TASK = 1001;
 
-    private static final String TODO_STORAGE_FILE = "todo.txt";
-
     private ArrayList<String> todoItems;
     private ArrayAdapter<String> aToDoAdapter;
 
-    private ListView lvItems;
     private EditText etEditText;
-    private Button btnAddItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         populateArrayItems();
 
-        lvItems = (ListView) findViewById(R.id.lvItems);
+        ListView lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(aToDoAdapter);
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         etEditText = (EditText) findViewById(R.id.etEditText);
-        btnAddItem = (Button) findViewById(R.id.btnAddItem);
     }
 
     @Override
@@ -124,29 +118,27 @@ public class MainActivity extends AppCompatActivity {
     private void populateArrayItems() {
         readItems();
 
-        aToDoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
+        aToDoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, todoItems);
     }
 
     private void readItems() {
-        File filesDir = getFilesDir();
-        File file = new File(filesDir, TODO_STORAGE_FILE);
-        try {
-            todoItems = new ArrayList<String>(FileUtils.readLines(file));
-        } catch (IOException ioe) {
-            System.out.println("oops reading");
-            System.out.println(ioe);
-            todoItems = new ArrayList<String>();
+        List<Task> tasks = TasksDatabaseHelper.getInstance(this).getAllTasks();
+
+        todoItems = new ArrayList<>();
+        for (Task task: tasks) {
+            todoItems.add(task.name);
         }
     }
 
     private void writeItems() {
-        File filesDir = getFilesDir();
-        File file = new File(filesDir, TODO_STORAGE_FILE);
-        try {
-            FileUtils.writeLines(file, todoItems);
-        } catch (IOException ioe) {
-            System.out.println("oops writing");
-            System.out.println(ioe);
+        TasksDatabaseHelper.getInstance(this).deleteAllTasks();
+
+        for (int i = 0; i < todoItems.size(); i++) {
+            Task task = new Task();
+            task.name = todoItems.get(i);
+            task.position = i;
+
+            TasksDatabaseHelper.getInstance(this).addOrUpdateTask(task);
         }
     }
 }

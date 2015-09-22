@@ -13,7 +13,6 @@ public class EditItemActivity extends AppCompatActivity {
     public static final int RESULT_BAD = 0;
     public static final int RESULT_OK = 1;
 
-    private String originalTaskName;
     private int taskPosition = -1;
 
     private EditText etNewTaskName;
@@ -23,7 +22,7 @@ public class EditItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        originalTaskName = getIntent().getStringExtra("name");
+        String originalTaskName = getIntent().getStringExtra("name");
         taskPosition = getIntent().getIntExtra("position", -1);
 
         etNewTaskName = (EditText) findViewById(R.id.etNewTaskName);
