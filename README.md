@@ -31,9 +31,15 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](walkthrough.gif)
+With required functionality:
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
+![Video Walkthrough 1](walkthrough.gif)
+
+With additional functionality:
+
+![Video Walkthrough 2](walkthrough2.gif)
+
+GIFs created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
