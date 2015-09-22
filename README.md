@@ -4,7 +4,7 @@
 
 Submitted by: **Jeff Martinez**
 
-Time spent: **2** hours spent in total
+Time spent: **3** hours spent in total
 
 ## User Stories
 
@@ -25,7 +25,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [X] Show a toast after an edit to show the old and new task names.
 
 ## Video Walkthrough 
 
@@ -37,7 +37,11 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+### Challenges encountered
+
+* I had to troubleshoot an exception when I first added persistence to the app. When the app fires up and there is no existing file ther was a null pointer exception. I added some basic code to handle this.
+* The method of persistence for the basic app has a bug. Since it just writes the ArrayList to a file, one element per line. Multiline tasks are read back as multiple single line tasks. I'll be fixing this when I use SQLite for persistence.
+* I missed the `show()` on one of my toasts when I was experimenting. It took me a little while figure out what was wrong :p
 
 ## License
 
