@@ -45,9 +45,9 @@ GIFs created with [LiceCap](http://www.cockos.com/licecap/).
 
 ### Challenges encountered
 
-* I had to troubleshoot an exception when I first added persistence to the app. When the app fires up and there is no existing file ther was a null pointer exception. I added some basic code to handle this.
-* The method of persistence for the basic app has a bug. Since it just writes the ArrayList to a file, one element per line. Multiline tasks are read back as multiple single line tasks. I'll be fixing this when I use SQLite for persistence.
-* I missed the `show()` on one of my toasts when I was experimenting. It took me a little while figure out what was wrong :p
+* I had to troubleshoot an exception when I first added persistence to the app. When the app fires up and there is no existing file there was a null pointer exception. I added some basic code to handle this.
+* The method of persistence for the basic app has a bug. Since it just writes the ArrayList to a file, one element per line, multiline tasks are read back as multiple single line tasks. I'll be fixing this when I use SQLite for persistence. (Update: This has been fixed).
+* I forgot the `.show()` on one of my toasts when I was experimenting. It took me a little while figure out what was wrong :p
 
 ## License
 

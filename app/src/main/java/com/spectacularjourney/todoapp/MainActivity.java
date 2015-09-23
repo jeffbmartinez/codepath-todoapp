@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_EDIT_TASK = 1001;
 
-    private ArrayList<String> todoItems;
-    private ArrayAdapter<String> aToDoAdapter;
+    private ArrayList<Task> todoItems;
+    private TasksAdapter aToDoAdapter;
 
     private EditText etEditText;
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent editTask = new Intent(parent.getContext(), EditItemActivity.class);
-                editTask.putExtra("name", todoItems.get(position));
+                editTask.putExtra("name", todoItems.get(position).name);
                 editTask.putExtra("position", position);
 
                 startActivityForResult(editTask, REQUEST_CODE_EDIT_TASK);
@@ -85,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddItem(View view) {
         String newTaskName = etEditText.getText().toString();
-        aToDoAdapter.add(newTaskName);
+
+        int newPosition = aToDoAdapter.getCount();
+        aToDoAdapter.add(new Task(newTaskName, newPosition));
 
         etEditText.setText("");
 
@@ -99,14 +100,14 @@ public class MainActivity extends AppCompatActivity {
             int position = data.getIntExtra("position", -1);
 
             if (position == -1) {
-                Toast.makeText(this, "Couldn't update task", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "Couldn't update task", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String toastMessage = todoItems.get(position) + " -> " + newTaskName;
+            String toastMessage = todoItems.get(position).name + " -> " + newTaskName;
 
             todoItems.remove(position);
-            todoItems.add(position, newTaskName);
+            todoItems.add(position, new Task(newTaskName, position));
             aToDoAdapter.notifyDataSetChanged();
 
             Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateArrayItems() {
         readItems();
 
-        aToDoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, todoItems);
+        aToDoAdapter = new TasksAdapter(this, todoItems);
     }
 
     private void readItems() {
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         todoItems = new ArrayList<>();
         for (Task task: tasks) {
-            todoItems.add(task.name);
+            todoItems.add(task);
         }
     }
 
@@ -134,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
         TasksDatabaseHelper.getInstance(this).deleteAllTasks();
 
         for (int i = 0; i < todoItems.size(); i++) {
-            Task task = new Task();
-            task.name = todoItems.get(i);
+            Task task = todoItems.get(i);
             task.position = i;
 
             TasksDatabaseHelper.getInstance(this).addOrUpdateTask(task);
