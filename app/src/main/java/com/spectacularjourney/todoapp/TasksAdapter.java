@@ -16,6 +16,11 @@ import java.util.ArrayList;
  */
 public class TasksAdapter extends ArrayAdapter<Task> {
 
+    private static class ViewHolder {
+        TextView name;
+        TextView position;
+    }
+
     public TasksAdapter(Context context, ArrayList<Task> tasks) {
         super(context, 0, tasks);
     }
@@ -24,15 +29,21 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Task task = getItem(position);
 
+        ViewHolder viewHolder;
         if (convertView == null) {
+            viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_task, parent, false);
+
+            viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
+            viewHolder.position = (TextView) convertView.findViewById(R.id.tvPosition);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-        tvName.setText(task.name);
-
-        TextView tvPosition = (TextView) convertView.findViewById(R.id.tvPosition);
-        tvPosition.setText(Integer.toString(task.position));
+        viewHolder.name.setText(task.name);
+        viewHolder.position.setText(Integer.toString(task.position));
 
         return convertView;
     }
