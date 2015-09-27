@@ -19,6 +19,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
     private static class ViewHolder {
         TextView name;
         TextView position;
+        TextView dueDate;
     }
 
     public TasksAdapter(Context context, ArrayList<Task> tasks) {
@@ -36,6 +37,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
             viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
             viewHolder.position = (TextView) convertView.findViewById(R.id.tvPosition);
+            viewHolder.dueDate = (TextView) convertView.findViewById(R.id.tvDueDate);
 
             convertView.setTag(viewHolder);
         } else {
@@ -44,6 +46,7 @@ public class TasksAdapter extends ArrayAdapter<Task> {
 
         viewHolder.name.setText(task.name);
         viewHolder.position.setText(Integer.toString(task.position));
+        viewHolder.dueDate.setText(Long.toString(task.dueDate));
 
         return convertView;
     }

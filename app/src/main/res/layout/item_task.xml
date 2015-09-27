@@ -19,4 +19,12 @@
         android:text="Name"
         android:textColor="@color/text_yellow" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Due Date"
+        android:id="@+id/tvDueDate"
+        android:textColor="@color/due_date_text_red" />
+
 </LinearLayout>

@@ -15,7 +15,8 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/material_deep_teal_500" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -27,7 +28,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="@string/empty_label"
-        android:textColor="@color/material_deep_teal_500"
+        android:textColor="@color/text_yellow"
         android:textColorHint="@color/material_deep_teal_500" />
 
     <Button
@@ -35,10 +36,23 @@
         android:layout_height="wrap_content"
         android:text="@string/save_button_label"
         android:id="@+id/btnSave"
+        android:onClick="onSave"
+        android:background="@color/button_background_red"
+        android:layout_below="@+id/etNewDueDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etNewDueDate"
         android:layout_below="@+id/etNewTaskName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="onSave"
-        android:background="@color/button_background_red" />
+        android:textColor="@color/due_date_text_red"
+        android:textColorHint="@color/material_deep_teal_500"
+        android:text="@string/empty_label"
+        android:layout_alignRight="@+id/etNewTaskName"
+        android:layout_alignEnd="@+id/etNewTaskName" />
 
 </RelativeLayout>

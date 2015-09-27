@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Task> todoItems;
     private TasksAdapter aToDoAdapter;
 
-    private EditText etEditText;
+    private EditText etTaskName;
+    private EditText etDueDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent editTask = new Intent(parent.getContext(), EditItemActivity.class);
                 editTask.putExtra("name", todoItems.get(position).name);
                 editTask.putExtra("position", position);
+                editTask.putExtra("dueDate", todoItems.get(position).dueDate);
 
                 startActivityForResult(editTask, REQUEST_CODE_EDIT_TASK);
             }
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        etEditText = (EditText) findViewById(R.id.etEditText);
+        etTaskName = (EditText) findViewById(R.id.etTaskName);
+        etDueDate = (EditText) findViewById(R.id.etDueDate);
     }
 
     @Override
@@ -83,12 +86,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddItem(View view) {
-        String newTaskName = etEditText.getText().toString();
+        String newTaskName = etTaskName.getText().toString();
+
+        long newDueDate = -1;
+        try {
+            newDueDate = Long.parseLong(etDueDate.getText().toString(), 10);
+        } catch (Exception e) {
+            Toast.makeText(this, "Due Date isn't an integer", Toast.LENGTH_SHORT).show();
+        }
 
         int newPosition = aToDoAdapter.getCount();
-        aToDoAdapter.add(new Task(newTaskName, newPosition));
+        aToDoAdapter.add(new Task(newTaskName, newPosition, newDueDate));
 
-        etEditText.setText("");
+        etTaskName.setText("");
+        etDueDate.setText("");
+
+        etTaskName.requestFocus();
 
         writeItems();
     }
@@ -97,17 +110,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_EDIT_TASK) {
             String newTaskName = data.getStringExtra("name");
-            int position = data.getIntExtra("position", -1);
 
+            int position = data.getIntExtra("position", -1);
             if (position == -1) {
-                Toast.makeText(this, "Couldn't update task", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Couldn't update task, bad position", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            long dueDate = data.getLongExtra("dueDate", -1);
+            if (dueDate == -1) {
+                Toast.makeText(this, "Couldn't update task, bad due date", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             String toastMessage = todoItems.get(position).name + " -> " + newTaskName;
 
             todoItems.remove(position);
-            todoItems.add(position, new Task(newTaskName, position));
+            todoItems.add(position, new Task(newTaskName, position, dueDate));
             aToDoAdapter.notifyDataSetChanged();
 
             Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();

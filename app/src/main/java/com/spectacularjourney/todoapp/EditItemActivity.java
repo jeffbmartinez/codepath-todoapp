@@ -16,6 +16,7 @@ public class EditItemActivity extends AppCompatActivity {
     private int taskPosition = -1;
 
     private EditText etNewTaskName;
+    private EditText etNewDueDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +25,14 @@ public class EditItemActivity extends AppCompatActivity {
 
         String originalTaskName = getIntent().getStringExtra("name");
         taskPosition = getIntent().getIntExtra("position", -1);
+        long taskDueDate = getIntent().getLongExtra("dueDate", -1);
 
         etNewTaskName = (EditText) findViewById(R.id.etNewTaskName);
         etNewTaskName.setText(originalTaskName);
         etNewTaskName.requestFocus();
+
+        etNewDueDate = (EditText) findViewById(R.id.etNewDueDate);
+        etNewDueDate.setText(Long.toString(taskDueDate));
 
         if (taskPosition == -1) {
             setResult(RESULT_BAD);
@@ -60,10 +65,18 @@ public class EditItemActivity extends AppCompatActivity {
     public void onSave(View view) {
         String newTaskName = etNewTaskName.getText().toString();
 
-        Intent data = new Intent();
-        data.putExtra("name", newTaskName);
-        data.putExtra("position", taskPosition);
-        setResult(RESULT_OK, data);
+        try {
+            long newDueDate = Long.parseLong(etNewDueDate.getText().toString(), 10);
+
+            Intent data = new Intent();
+            data.putExtra("name", newTaskName);
+            data.putExtra("position", taskPosition);
+            data.putExtra("dueDate", newDueDate);
+            setResult(RESULT_OK, data);
+        } catch (Exception e) {
+            setResult(RESULT_BAD);
+        }
+
         this.finish();
     }
 }

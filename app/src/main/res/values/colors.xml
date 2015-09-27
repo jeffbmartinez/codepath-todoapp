@@ -4,4 +4,5 @@
     <color name="transparent">#33000000</color>
     <color name="text_yellow">#AA0</color>
     <color name="button_background_red">#633</color>
+    <color name="due_date_text_red">#844</color>
 </resources>

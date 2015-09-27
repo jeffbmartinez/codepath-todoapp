@@ -19,12 +19,13 @@ public class TasksDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "TasksDatabaseHelper";
 
     public static final String DATABASE_NAME = "tasksDatabase";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_TASKS = "tasks";
     public static final String KEY_TASK_ID = "id";
     public static final String KEY_TASK_NAME = "name";
     public static final String KEY_TASK_POSITION = "position";
+    public static final String KEY_TASK_DUE_DATE = "dueDate";
 
     private TasksDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,7 +50,8 @@ public class TasksDatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                     KEY_TASK_ID + " INTEGER PRIMARY KEY," +
                     KEY_TASK_POSITION + " INTEGER," +
-                    KEY_TASK_NAME + " TEXT" +
+                    KEY_TASK_NAME + " TEXT," +
+                    KEY_TASK_DUE_DATE + " INTEGER" +
                 ")";
 
         db.execSQL(CREATE_TASKS_TABLE);
@@ -73,6 +75,7 @@ public class TasksDatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(KEY_TASK_NAME, task.name);
             values.put(KEY_TASK_POSITION, task.position);
+            values.put(KEY_TASK_DUE_DATE, task.dueDate);
 
             newTaskId = db.insertOrThrow(TABLE_TASKS, null, values);
             db.setTransactionSuccessful();
@@ -91,6 +94,7 @@ public class TasksDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("name", task.name);
         values.put("position", task.position);
+        values.put("dueDate", task.dueDate);
 
         return (long) db.update(TABLE_TASKS, values, KEY_TASK_ID + " = ?", new String[]{
                 String.valueOf(task.id)
@@ -109,10 +113,11 @@ public class TasksDatabaseHelper extends SQLiteOpenHelper {
         List<Task> tasks = new ArrayList<>();
 
         String TASKS_SELECT_QUERY =
-                String.format("SELECT %s, %s, %s FROM %s ORDER BY %s ASC",
+                String.format("SELECT %s, %s, %s, %s FROM %s ORDER BY %s ASC",
                         KEY_TASK_ID,
                         KEY_TASK_NAME,
                         KEY_TASK_POSITION,
+                        KEY_TASK_DUE_DATE,
                         TABLE_TASKS,
                         KEY_TASK_POSITION
                 );
@@ -130,6 +135,7 @@ public class TasksDatabaseHelper extends SQLiteOpenHelper {
                 task.id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_TASK_ID));
                 task.name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_TASK_NAME));
                 task.position = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TASK_POSITION));
+                task.dueDate = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_TASK_DUE_DATE));
                 tasks.add(task);
             } while (cursor.moveToNext());
 
