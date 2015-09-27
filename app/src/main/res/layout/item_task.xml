@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="Name"
-        android:textColor="@color/abc_primary_text_material_light" />
+        android:textColor="@color/text_yellow" />
 
 </LinearLayout>
