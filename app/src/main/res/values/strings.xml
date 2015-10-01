@@ -9,5 +9,5 @@
     <string name="edit_item_label">Edit Item Below:</string>
     <string name="empty_label" />
     <string name="save_button_label">Save</string>
-    <string name="add_due_date">Add Due Date...</string>
+    <string name="add_due_date">Due Date:</string>
 </resources>

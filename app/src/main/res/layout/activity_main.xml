@@ -23,28 +23,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etTaskName"
-        android:layout_above="@+id/etDueDate"
-        android:layout_alignRight="@+id/btnAddItem"
-        android:layout_alignEnd="@+id/btnAddItem"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:hint="@string/add_item"
         android:textColor="@color/text_yellow"
-        android:textColorHint="@color/material_deep_teal_500" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etDueDate"
+        android:textColorHint="@color/material_deep_teal_500"
+        android:layout_above="@+id/btnAddItem"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/btnAddItem"
-        android:layout_toStartOf="@+id/btnAddItem"
-        android:layout_alignTop="@+id/btnAddItem"
-        android:layout_alignParentBottom="true"
-        android:hint="@string/add_due_date"
-        android:textColor="@color/due_date_text_red"
-        android:textColorHint="@color/material_deep_teal_500" />
+        android:layout_alignRight="@+id/btnAddItem"
+        android:layout_alignEnd="@+id/btnAddItem" />
 
     <Button
         android:layout_width="wrap_content"
@@ -56,5 +42,39 @@
         android:layout_alignParentEnd="true"
         android:onClick="onAddItem"
         android:background="@color/button_background_red" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/npDueMonth"
+        android:layout_below="@+id/etTaskName"
+        android:layout_toLeftOf="@+id/npDueDate"
+        android:layout_toStartOf="@+id/npDueDate"
+        android:background="@color/due_date_text_red" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/npDueDate"
+        android:layout_below="@+id/etTaskName"
+        android:layout_toLeftOf="@+id/btnAddItem"
+        android:layout_toStartOf="@+id/btnAddItem"
+        android:layout_alignParentBottom="true"
+        android:background="@color/due_date_text_red" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etTaskName"
+        android:layout_toLeftOf="@+id/npDueMonth"
+        android:layout_toStartOf="@+id/npDueMonth"
+        android:text="@string/add_due_date"
+        android:textColor="@color/material_deep_teal_500"
+        android:gravity="center_vertical" />
 
 </RelativeLayout>

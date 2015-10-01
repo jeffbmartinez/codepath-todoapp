@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.spectacularjourney.todoapp.storage.Task;
@@ -30,9 +31,17 @@ public class MainActivity extends AppCompatActivity {
     private EditText etDueDate;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        NumberPicker npDueMonth = (NumberPicker) findViewById(R.id.npDueMonth);
+        npDueMonth.setMinValue(1);
+        npDueMonth.setMaxValue(12);
+
+        NumberPicker npDueDate = (NumberPicker) findViewById(R.id.npDueDate);
+        npDueDate.setMinValue(1);
+        npDueDate.setMaxValue(31);
 
         populateArrayItems();
 
@@ -60,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         etTaskName = (EditText) findViewById(R.id.etTaskName);
-        etDueDate = (EditText) findViewById(R.id.etDueDate);
+//        etDueDate = (EditText) findViewById(R.id.etDueDate);
     }
 
     @Override
@@ -90,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         long newDueDate = -1;
         try {
-            newDueDate = Long.parseLong(etDueDate.getText().toString(), 10);
+            newDueDate = 1; //Long.parseLong(etDueDate.getText().toString(), 10);
         } catch (Exception e) {
             Toast.makeText(this, "Due Date isn't an integer", Toast.LENGTH_SHORT).show();
         }
@@ -99,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         aToDoAdapter.add(new Task(newTaskName, newPosition, newDueDate));
 
         etTaskName.setText("");
-        etDueDate.setText("");
+//        etDueDate.setText("");
 
         etTaskName.requestFocus();
 
